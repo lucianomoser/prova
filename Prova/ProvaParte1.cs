@@ -8,28 +8,40 @@ using Prova.Pages;
 namespace Prova
 {
     [TestClass]
-    public class UnitTest1
+    public class ProvaParte1
     {
         private IWebDriver Driver { get; set; }
         private WebDriverWait Aguardar { get; set; }
+
+        public static string[] proximoCodigo;
 
         [TestInitialize]       
 
         public void InicializaAmbiente()
         {
             Driver = Web.chrome();
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5); 
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             
+
         }
 
 
 
         [TestMethod]
-        public void TestMethod1()
+        public void Login()
         {
 
             new LoginPages(Driver).InformacoesLogin("lucianoteste", "Hb1234");
             new LoginFromPage(Driver).MenuConfiguracaoEndereco("Configurações");
+            new EnderecosPages(Driver).BotaoTodos();
+            new EnderecosPages(Driver).Mostrar();
+            new EnderecosPages(Driver).Pesquisar("EQ0");
+            new EnderecosPages(Driver).Consultar();
+            new EnderecosPages(Driver).Grid();
+            new EnderecosPages(Driver).BotaoCriarNovo();
+            new CriarEnderecoPages(Driver).IncluirEndereco();
+
+
 
 
         }

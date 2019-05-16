@@ -15,22 +15,12 @@ namespace Prova.Pages
         {
             Driver.FindElement(By.XPath("//*[@id='main-menu']/li[10]")).Click();
 
-            var menuEnderecos= Driver.FindElement(By.XPath("//*[@id='main-menu']/li[10]/ul/li[11]/a"));
-            
+            var menuEnderecos = Driver.FindElement(By.XPath("//*[@id='main-menu']/li[10]/ul/li[11]/a"));
+
             IJavaScriptExecutor executor = (IJavaScriptExecutor)Driver;
-
-            executor.ExecuteScript("window.scrollBy(menuEnderecos.Location.X", "menuEnderecos.Location.Y)");
-            menuEnderecos.Click();
-
-
-
-
-
-
-
-
-
-
+            executor.ExecuteScript("window.scrollBy(" + menuEnderecos.Location.X + "," + menuEnderecos.Location.Y + ")");
+            executor.ExecuteScript("arguments[0].click();", menuEnderecos);
+                                   
             return new EnderecosPages(Driver);
         }
 
