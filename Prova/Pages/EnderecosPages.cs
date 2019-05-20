@@ -23,8 +23,22 @@ namespace Prova.Pages
             Driver.FindElement(By.Id("react-select-2--value")).Click();
             Thread.Sleep(500);
             Driver.FindElement(By.Id("react-select-2--option-4")).Click();
+            Thread.Sleep(5000);
             WebDriverWait aguarde = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
             aguarde.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//*[@id='formfiltro']/form/button")));
+            return this;
+        }
+
+        public EnderecosPages ConsultaDeEnderecos()
+        {
+            new EnderecosPages(Driver).BotaoTodos();
+            new EnderecosPages(Driver).Mostrar();
+            new EnderecosPages(Driver).EditorDePesquisar("EQ0");
+            new EnderecosPages(Driver).BotaoConsultar();
+            CriarEnderecoPages novoEndereco = new CriarEnderecoPages(Driver).ObterUltimoRegistroCadastrado();
+            new EnderecosPages(Driver).BotaoCriarNovo();
+            new CriarEnderecoPages(Driver).IncluirEndereco(novoEndereco);
+
             return this;
         }
 
@@ -35,7 +49,7 @@ namespace Prova.Pages
             return new EnderecosPages(Driver);
         }
 
-        public EnderecosPages Consultar()
+        public EnderecosPages BotaoConsultar()
         {
             WebDriverWait aguarde = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
             aguarde.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//*[@id='formfiltro']/form/button")));
@@ -44,38 +58,25 @@ namespace Prova.Pages
             executor = (IJavaScriptExecutor)Driver;
             executor.ExecuteScript("window.scrollBy(" + botaoConsultar.Location.X + ", " + botaoConsultar.Location.Y + ")");
             executor.ExecuteScript("arguments[0].click();", botaoConsultar);
+            Thread.Sleep(2000);
             return this;            
         }
         public CriarEnderecoPages BotaoCriarNovo()
         {
             Driver.FindElement(By.XPath("//*[@id='app']/div/div/div[1]/div/div/div[1]/button")).Click();
+            WebDriverWait aguarde = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
+            aguarde.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='locationFormModal']/div/div/div[1]/h4")));
+            
+         
             return new CriarEnderecoPages(Driver);
         }
 
-        public EnderecosPages Pesquisar(string pesquisa)
+        public EnderecosPages EditorDePesquisar(string pesquisa)
         {
             Driver.FindElement(By.XPath("//*[@id='formfiltro']/form/div/div[3]/input")).SendKeys(pesquisa);
+            Thread.Sleep(2000);
             return this;
         }
-
-        public CriarEnderecoPages Grid()
-        {           
-
-            int ultimoRegistro = Convert.ToInt32(Driver.FindElement(By.XPath("//*[@id='app']/div/div/div[1]/div/div/div[2]/div/div/div[3]/div[2]/div[1]/div[1]/div")).Text.Substring(24,4).Trim());            
-
-            CriarEnderecoPages criarEnderecoPages = new CriarEnderecoPages(Driver);
-
-            criarEnderecoPages.Armazem = Driver.FindElement(By.XPath($"//*[@id='app']/div/div/div[1]/div/div/div[2]/div/div/div[3]/div[1]/table/tbody/tr[{ultimoRegistro}]/td[3]")).Text;
-            criarEnderecoPages.Descricao = Driver.FindElement(By.XPath($"//*[@id='app']/div/div/div[1]/div/div/div[2]/div/div/div[3]/div[1]/table/tbody/tr[{ultimoRegistro}]/td[4]")).Text;
-
-            string codigo = "EQ" + ultimoRegistro + 1;
-
-            criarEnderecoPages.Codigo= Driver.FindElement(By.XPath($"//*[@id='app']/div/div/div[1]/div/div/div[2]/div/div/div[3]/div[1]/table/tbody/tr[{ultimoRegistro}]/td[2]")).Text;                   
-            
-
-            return criarEnderecoPages;
-        }
-
-
+        
     }
 }

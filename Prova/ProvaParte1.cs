@@ -33,13 +33,9 @@ namespace Prova
 
             new LoginPages(Driver).InformacoesLogin("lucianoteste", "Hb1234");
             new LoginFromPage(Driver).MenuConfiguracaoEndereco("Configurações");
-            new EnderecosPages(Driver).BotaoTodos();
-            new EnderecosPages(Driver).Mostrar();
-            new EnderecosPages(Driver).Pesquisar("EQ0");
-            new EnderecosPages(Driver).Consultar();
-            new EnderecosPages(Driver).Grid();
-            new EnderecosPages(Driver).BotaoCriarNovo();
-            new CriarEnderecoPages(Driver).IncluirEndereco();
+            new EnderecosPages(Driver).ConsultaDeEnderecos();
+            
+
 
 
 
